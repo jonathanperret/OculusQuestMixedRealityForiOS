@@ -196,6 +196,21 @@ final class MixedRealityViewController: UIViewController {
     }
 
     private func configureForeground(with frame: ARFrame) {
+        switch configuration.backgroundVisibility {
+            case .hidden:
+                break;
+            default:
+                if(configuration.enableSegmentation) {
+                    break;
+                } else {
+                    // Visible background and no segmentation means nothing is
+                    // rendered in front of the background, so there is no need
+                    // to render the foreground layer
+                    print("Visible background and no segmentation: disabling foreground");
+                    return;
+                }
+        }
+
         let foregroundPlaneNode = makePlaneNodeForDistance(0.1, frame: frame)
 
         // Flipping image
